@@ -1,63 +1,84 @@
 import React from 'react';
 import './App.css';
+import mentorImg from './image2.png';
+import logoImg from './image.png';
 
-const MentorCard = () => {
+const LawAcademy = () => {
+  const MagnifyingGlass = () => (
+    <svg 
+      width="32" 
+      height="32" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="white" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+      strokeLinejoin="round"
+    >
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+  );
+
   return (
-    <div className="card-wrapper">
-      <div className="mentor-card-container">
-        
-        {/* Left Side: Text Content */}
-        <div className="content-section">
-          <div className="text-wrapper">
-            <h2 className="name">Oleg</h2>
-            <p className="role">Lawyer with experience / 33 years</p>
-
-            {/* CONTACT INFO SECTION */}
-            <div className="contact-info">
-              <span>📞 +1 (555) 000-1234</span>
-              <span>✉️ oleg.lawyer@example.com</span>
-            </div>
-
-            <div className="section">
-              <h3 className="section-title">Goals/motivation:</h3>
-              <ul className="list">
-                <li>Improve your skills and stay competitive in the market.</li>
-                <li>Gain specialized knowledge for certifications and exams.</li>
-              </ul>
-            </div>
-
-            <div className="section">
-              <h3 className="section-title">Behavior:</h3>
-              <ul className="list">
-                <li>Webinars, online courses, master classes.</li>
-                <li>Uses LinkedIn and Facebook for networking.</li>
-              </ul>
-            </div>
-
-            <div className="section">
-              <h3 className="section-title">Pain Points:</h3>
-              <ul className="list">
-                <li>Difficult to find courses that meet modern requirements.</li>
-              </ul>
-            </div>
-
-            <button className="register-button">
-              Register on the course
-            </button>
+    <div className="site-wrapper">
+      <header className="hero-section">
+        <div className="top-row">
+          <div className="top-image-container">
+            <img 
+              src={logoImg} 
+              alt="Law School Logo" 
+              className="flush-img" 
+            />
+          </div>
+          
+          <div className="top-image-container">
+            <img 
+              src={mentorImg} 
+              alt="Mentor" 
+              className="flush-img" 
+            />
           </div>
         </div>
 
-        {/* Right Side: Image */}
-        <div className="image-section">
-          <img 
-            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=1000" 
-            alt="Oleg"
-          />
+        <div className="main-info">
+          <h1 className="title">ააიპ სამართლებრივი პრაქტიკის აკადემია</h1>
+          <div className="details">
+            <div className="schedule">
+              <p>სამშაბათი: 20:00</p>
+              <p>პარასკევი: 20:00</p>
+            </div>
+            <div className="mentor-name">
+              <p>მენტორი: ბექა ხუფენია</p>
+            </div>
+          </div>
         </div>
+      </header>
 
-      </div>
+      <footer className="features-bar">
+        <div className="feature-item">
+          <div className="icon-circle"><MagnifyingGlass /></div>
+          <p>შუამდგომლობის შედგენის მეთოდიკა</p>
+        </div>
+        <div className="feature-item">
+          <div className="icon-circle"><MagnifyingGlass /></div>
+          <p>გამოკითხვის და გამოძიების დროს პირის მოწმედ დაკითხვის წესი</p>
+        </div>
+        <div className="feature-item">
+          <div className="icon-circle"><MagnifyingGlass /></div>
+          <p>დათვალიერების ზოგადი წესი</p>
+        </div>
+        <div className="feature-item">
+          <div className="icon-circle"><MagnifyingGlass /></div>
+          <p>ექსპერტიზის დანიშვნის საფუძველი</p>
+        </div>
+        <div className="feature-item">
+          <div className="icon-circle"><MagnifyingGlass /></div>
+          <p>ნიმუშის აღება</p>
+        </div>
+      </footer>
     </div>
   );
 };
 
-export default MentorCard;
+export default LawAcademy;
