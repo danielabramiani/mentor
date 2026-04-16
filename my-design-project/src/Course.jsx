@@ -15,7 +15,7 @@ const Register = () => {
         setStatus({ loading: true, success: false, message: 'მიმდინარეობს გაგზავნა...' });
 
         try {
-            const response = await fetch('https://mentor-2-8mbm.onrender.com', {
+            const response = await fetch('https://mentor-2-8mbm.onrender.com/api/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
@@ -56,13 +56,7 @@ const Register = () => {
                             <label>სახელი</label>
                             <div className="input-wrapper">
                                 <i data-lucide="user" className="input-icon"></i>
-                                <input 
-                                    name="firstName" 
-                                    value={formData.firstName} 
-                                    onChange={handleInputChange} 
-                                    placeholder="სახელი"
-                                    required 
-                                />
+                                <input name="firstName" value={formData.firstName} onChange={handleInputChange} placeholder="სახელი" required />
                             </div>
                         </div>
 
@@ -70,13 +64,7 @@ const Register = () => {
                             <label>გვარი</label>
                             <div className="input-wrapper">
                                 <i data-lucide="users" className="input-icon"></i>
-                                <input 
-                                    name="lastName" 
-                                    value={formData.lastName} 
-                                    onChange={handleInputChange} 
-                                    placeholder="გვარი"
-                                    required 
-                                />
+                                <input name="lastName" value={formData.lastName} onChange={handleInputChange} placeholder="გვარი" required />
                             </div>
                         </div>
 
@@ -84,13 +72,7 @@ const Register = () => {
                             <label>ტელეფონის ნომერი</label>
                             <div className="input-wrapper">
                                 <i data-lucide="phone" className="input-icon"></i>
-                                <input 
-                                    name="phoneNumber" 
-                                    value={formData.phoneNumber} 
-                                    onChange={handleInputChange} 
-                                    placeholder="555 XX XX XX"
-                                    required 
-                                />
+                                <input name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} placeholder="555 XX XX XX" required />
                             </div>
                         </div>
 

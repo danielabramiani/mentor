@@ -1,13 +1,13 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
-require('dotenv').config({ path: './info.env' });
+require('dotenv').config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const SERVER_URL = 'https://mentor-2-8mbm.onrender.com'; 
+const SERVER_URL = 'https://mentor-2-8mbm.onrender.com';
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -30,10 +30,8 @@ app.post('/api/register', async (req, res) => {
                     <p><strong>მოსწავლე:</strong> ${firstName} ${lastName}</p>
                     <p><strong>ტელეფონი:</strong> ${phoneNumber}</p>
                     <br>
-                    <a href="${SERVER_URL}/api/approve?name=${firstName}" 
-                       style="background: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">ACCEPT</a>
-                    <a href="${SERVER_URL}/api/decline?name=${firstName}" 
-                       style="background: #dc3545; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-left: 10px;">DECLINE</a>
+                    <a href="${SERVER_URL}/api/approve?name=${firstName}" style="background: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">ACCEPT</a>
+                    <a href="${SERVER_URL}/api/decline?name=${firstName}" style="background: #dc3545; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-left: 10px;">DECLINE</a>
                 </div>
             `
         });
@@ -46,4 +44,5 @@ app.post('/api/register', async (req, res) => {
 app.get('/api/approve', (req, res) => res.send(`<h1 style="color: green; text-align: center;">${req.query.name} დადასტურებულია!</h1>`));
 app.get('/api/decline', (req, res) => res.send(`<h1 style="color: red; text-align: center;">${req.query.name} უარყოფილია.</h1>`));
 
-app.listen(5000, () => console.log('Server running on port 5000'));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
