@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const SERVER_URL = 'http://localhost:5000'; 
+const SERVER_URL = 'https://mentor-2-8mbm.onrender.com'; 
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',

@@ -15,7 +15,7 @@ const Register = () => {
         setStatus({ loading: true, success: false, message: 'მიმდინარეობს გაგზავნა...' });
 
         try {
-            const response = await fetch('http://localhost:5000/api/register', {
+            const response = await fetch('https://mentor-2-8mbm.onrender.com', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
