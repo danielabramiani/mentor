@@ -12,10 +12,7 @@ const Footer = () => (
       </div>
       
       <div className="footer-socials">
-        <a href="#" className="footer-social-link"><FontAwesomeIcon icon={faFacebook} /></a>
-        <a href="#" className="footer-social-link"><FontAwesomeIcon icon={faInstagram} /></a>
-        <a href="#" className="footer-social-link"><FontAwesomeIcon icon={faLinkedin} /></a>
-        <a href="#" className="footer-social-link"><FontAwesomeIcon icon={faTwitter} /></a>
+        <a href="https://www.facebook.com/semanticstranslation?mibextid=wwXIfr&rdid=HiAPOzfEZkDhQykU&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1EDt9i8gtP%2F%3Fmibextid%3DwwXIfr#" className="footer-social-link"><FontAwesomeIcon icon={faFacebook} /></a>
       </div>
 
       <div className="footer-info">
