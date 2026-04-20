@@ -124,7 +124,7 @@ const Register = () => {
 
                         <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'center' }}>
                             <ReCAPTCHA
-                                sitekey="6Ld6C8EsAAAAAC6oI4_ulPhvF4x6sreqMLBWvlj5"
+                                sitekey="6LdCP8EsAAAAAPhpSXIhxtMgwXQmTIQf-yp1sImu"
                                 onChange={(token) => setCaptchaToken(token)}
                             />
                         </div>

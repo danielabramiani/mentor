@@ -7,7 +7,7 @@ require('dotenv').config();
 const app = express();
 
 const allowedOrigins = [
-    'https://mentor-one-beta.vercel.app',
+    'https://lawcraft321.netlify.app',
     'http://localhost:5173',
     'http://localhost:5174',
     'http://localhost:5175',
