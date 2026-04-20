@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
-import '../css/Navbar.css';
+import '../css/NavBar.css';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);

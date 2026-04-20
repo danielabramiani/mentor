@@ -113,144 +113,7 @@ html, body {
     border-color: #1b263b;
 }
 
-.captcha-container {
-    margin: 10px 0;
-    position: relative;
-}
 
-.captcha-box {
-    background: #f9f9f9;
-    border: 1px solid #d3d3d3;
-    border-radius: 3px;
-    height: 74px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 12px;
-}
-
-.captcha-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.checkbox {
-    width: 28px;
-    height: 28px;
-    border: 2px solid #c1c1c1;
-    background: #fff;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.captcha-text {
-    font-size: 14px;
-    color: #555;
-    user-select: none;
-}
-
-.captcha-right {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 8px;
-    color: #555;
-}
-
-.captcha-right img {
-    width: 30px;
-    margin-bottom: 2px;
-}
-
-.image-challenge-popup {
-    position: absolute;
-    bottom: 80px;
-    left: 0;
-    background: white;
-    border: 1px solid #ccc;
-    width: 310px;
-    z-index: 1000;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    border-radius: 2px;
-}
-
-.challenge-header {
-    background: #1b263b;
-    color: white;
-    padding: 20px;
-}
-
-.challenge-header p {
-    font-size: 14px;
-}
-
-.challenge-header strong {
-    font-size: 18px;
-    color: #c5a059;
-}
-
-.image-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    padding: 2px;
-    background: #fff;
-}
-
-.grid-item {
-    height: 90px;
-    cursor: pointer;
-    position: relative;
-}
-
-.grid-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.grid-item.selected img {
-    transform: scale(0.85);
-}
-
-.check-overlay {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    background: #c5a059;
-    color: white;
-    border-radius: 50%;
-    width: 22px;
-    height: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-}
-
-.challenge-footer {
-    padding: 10px;
-    display: flex;
-    justify-content: flex-end;
-    border-top: 1px solid #eee;
-}
-
-.challenge-footer button {
-    background: #1b263b;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-.challenge-footer button:hover {
-    background: #c5a059;
-}
 
 .submit-btn {
     padding: 14px;
@@ -355,7 +218,70 @@ html, body {
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
 }
+/* წარმატების მოდალი */
+.success-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    backdrop-filter: blur(5px);
+}
 
+.success-modal {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    animation: modalPop 0.3s ease-out;
+}
+
+.success-icon {
+    font-size: 50px;
+    color: #c5a059;
+    margin-bottom: 20px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    justify-content: center;
+}
+
+.stay-btn, .exit-btn {
+    padding: 12px 25px;
+    border-radius: 8px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.stay-btn {
+    background: #1b263b;
+    color: white;
+}
+
+.exit-btn {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.stay-btn:hover { background: #c5a059; }
+.exit-btn:hover { background: #ddd; }
+
+@keyframes modalPop {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }

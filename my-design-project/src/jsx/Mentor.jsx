@@ -1,7 +1,5 @@
 import React from 'react';
 import { Phone, Mail, Target, CheckCircle, AlertCircle } from 'lucide-react';
-
-// სურათების იმპორტი
 import bekaImg from '../assets/image/bf7be65e-70b9-4351-8eb8-e1c646f015e9.jpg'; 
 import elgujaImg from '../assets/image/47797363-acd7-4d08-8442-fd27ebfb76de.jpg';
 import ninoImg from '../assets/image/IMG_6095.jpg'; 
@@ -24,7 +22,7 @@ const mentors = [
     id: 2,
     name: "ნინო გოგნიაშვილი",
     role: "იურიდიულ მეცნიერებათა დოქტორი / პროფესორი",
-    img: ninoImg,
+    img: elgujaImg,
     phone: "+995 577 94 39 36",
     email: "n.gogniashvili@lawcraft.ge",
     goals: ["კრიმინალისტიკური მეთოდოლოგიის დაუფლება.", "სისხლის სამართლის პროცესის ანალიზი."],
@@ -35,7 +33,7 @@ const mentors = [
     id: 3,
     name: "ელგუჯა მაკალათია",
     role: "სამართლის დოქტორანტი / ანტიკორუფციული ექსპერტი",
-    img: elgujaImg,
+    img: ninoImg,
     phone: "+995 577 50 10 66",
     email: "e.makalatia@lawcraft.ge",
     goals: ["საჯარო სამსახურის ეთიკის სწავლება.", "ანტიკორუფციული პოლიტიკის დანერგვა."],

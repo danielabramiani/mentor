@@ -1,99 +1,84 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { User, Users, Mail, Phone, PartyPopper, AlertCircle } from 'lucide-react';
+import ReCAPTCHA from "react-google-recaptcha";
 import '../css/App.css';
 
 const Register = () => {
-    const [formData, setFormData] = useState({ firstName: '', lastName: '', phoneNumber: '' });
-    const [status, setStatus] = useState({ loading: false, success: false, message: '' });
-    const [isVerified, setIsVerified] = useState(false);
-    const [showChallenge, setShowChallenge] = useState(false);
-    const [selectedImages, setSelectedImages] = useState([]);
-    const [currentLevel, setCurrentLevel] = useState(0);
-    const [shuffledImages, setShuffledImages] = useState([]);
+    const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', phoneNumber: '' });
+    const [errors, setErrors] = useState({});
+    const [status, setStatus] = useState({ loading: false, message: '' });
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
-    const [loadedImages, setLoadedImages] = useState({});
+    const [captchaToken, setCaptchaToken] = useState(null);
 
-    const challenges = [
-        {
-            title: 'ველოსიპედი',
-            images: [
-                { id: 1, type: 'გზა', url: 'https://thumbs.dreamstime.com/b/leningrad-region-russia-april-highway-potholes-poor-quality-pavement-primary-stage-its-destruction-road-car-143374340.jpg' },
-                { id: 2, type: 'მანქანა', url: 'https://loremflickr.com/400/400/car?lock=2' },
-                { id: 3, type: 'ველოსიპედი', url: 'https://loremflickr.com/400/400/bicycle?lock=3' },
-                { id: 4, type: 'ავტობუსი', url: 'https://loremflickr.com/400/400/bus?lock=4' },
-                { id: 5, type: 'ველოსიპედი', url: 'https://loremflickr.com/400/400/bicycle?lock=5' },
-                { id: 6, type: 'მოტოციკლი', url: 'https://loremflickr.com/400/400/motorcycle?lock=6' }
-            ]
-        },
-        {
-            title: 'შუქნიშანი',
-            images: [
-                { id: 7, type: 'გზა', url: 'https://loremflickr.com/400/400/trafficlight?lock=7' },
-                { id: 8, type: 'გზა', url: 'https://loremflickr.com/400/400/road?lock=8' },
-                { id: 9, type: 'შუქნიშანი', url: 'https://loremflickr.com/400/400/trafficlight?lock=9' },
-                { id: 10, type: 'შენობა', url: 'https://loremflickr.com/400/400/building?lock=10' },
-                { id: 11, type: 'შუქნიშანი', url: 'https://loremflickr.com/400/400/trafficlight?lock=11' },
-                { id: 12, type: 'ქუჩა', url: 'https://loremflickr.com/400/400/street?lock=12' }
-            ]
+    const validate = (name, value) => {
+        if (name === "firstName" || name === "lastName") {
+            return /^[a-zA-Zა-ჰ\s]+$/.test(value) ? "" : "გამოიყენეთ მხოლოდ ასოები";
         }
-    ];
-
-    useEffect(() => {
-        if (showChallenge) {
-            setShuffledImages([...challenges[currentLevel].images].sort(() => Math.random() - 0.5));
-            setSelectedImages([]);
-            setLoadedImages({});
+        if (name === "email") {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? "" : "არასწორი მეილი";
         }
-    }, [showChallenge, currentLevel]);
-
-    const handleImageLoad = (id) => {
-        setLoadedImages(prev => ({ ...prev, [id]: true }));
+        if (name === "phoneNumber") {
+            return /^[0-9]{9}$/.test(value) ? "" : "უნდა იყოს 9 ნიშნა";
+        }
+        return "";
     };
 
-    const toggleImage = (id) => {
-        setSelectedImages(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        if (name === "phoneNumber" && value.length > 9) return;
+        setErrors(prev => ({ ...prev, [name]: validate(name, value) }));
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const verifyCaptcha = () => {
-        const currentTitle = challenges[currentLevel].title;
-        const correctIds = shuffledImages.filter(img => img.type === currentTitle).map(img => img.id);
-        const isCorrect = selectedImages.length === correctIds.length && selectedImages.every(id => correctIds.includes(id));
-
-        if (isCorrect) {
-            setIsVerified(true);
-            setShowChallenge(false);
+    const handleExit = () => {
+        // აბრუნებს მომხმარებელს წინა საიტზე (FB, Messenger, Google და ა.შ.)
+        if (document.referrer && document.referrer !== window.location.href) {
+            window.location.href = document.referrer;
         } else {
-            setShowErrorModal(true);
-            setSelectedImages([]);
-            setCurrentLevel((prev) => (prev + 1) % challenges.length);
+            window.history.back();
         }
     };
-
-    const handleInputChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!isVerified) return;
-        setStatus({ loading: true, success: false, message: 'მიმდინარეობს გაგზავნა...' });
+        
+        if (!captchaToken) {
+            setStatus({ loading: false, message: 'გთხოვთ გაიაროთ კაპჩა' });
+            return;
+        }
+
+        setStatus({ loading: true, message: '' });
+
         try {
             const response = await fetch('https://mentor-2-8mbm.onrender.com/api/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
+                body: JSON.stringify({
+                    firstName: formData.firstName,
+                    lastName: formData.lastName,
+                    email: formData.email,
+                    phoneNumber: formData.phoneNumber,
+                    captchaToken: captchaToken
+                })
             });
+
+            const data = await response.json();
+
             if (response.ok) {
-                setStatus({ loading: false, success: true, message: 'წარმატებით გაიგზავნა!' });
-                setFormData({ firstName: '', lastName: '', phoneNumber: '' });
-                setIsVerified(false);
+                setShowSuccessModal(true);
+                setFormData({ firstName: '', lastName: '', email: '', phoneNumber: '' });
+                setCaptchaToken(null);
+                setStatus({ loading: false, message: '' });
             } else {
-                const data = await response.json();
-                setStatus({ loading: false, success: false, message: data.error || 'შეცდომა' });
+                setStatus({ loading: false, message: data.error || 'რეგისტრაცია ვერ მოხერხდა' });
+                setShowErrorModal(true);
             }
         } catch (err) {
-            setStatus({ loading: false, success: false, message: 'სერვერი გამორთულია!' });
+            setStatus({ loading: false, message: 'სერვერი არ რეაგირებს' });
+            setShowErrorModal(true);
         }
     };
-
-    useEffect(() => { if (window.lucide) window.lucide.createIcons(); }, [formData, status, isVerified, showChallenge, selectedImages, showErrorModal]);
 
     return (
         <div className="register-page" id="register">
@@ -104,80 +89,75 @@ const Register = () => {
                         <span className="sub-text">LAWCRAFT ACADEMY</span>
                     </div>
                     <h1 className="form-title">რეგისტრაცია</h1>
+                    
                     <form onSubmit={handleSubmit} className="register-form">
                         <div className="input-group">
                             <label>სახელი</label>
-                            <div className="input-wrapper">
-                                <i data-lucide="user" className="input-icon"></i>
+                            <div className={`input-wrapper ${errors.firstName ? 'input-error' : ''}`}>
+                                <User className="input-icon" size={20} />
                                 <input name="firstName" value={formData.firstName} onChange={handleInputChange} placeholder="სახელი" required />
                             </div>
                         </div>
+
                         <div className="input-group">
                             <label>გვარი</label>
-                            <div className="input-wrapper">
-                                <i data-lucide="users" className="input-icon"></i>
+                            <div className={`input-wrapper ${errors.lastName ? 'input-error' : ''}`}>
+                                <Users className="input-icon" size={20} />
                                 <input name="lastName" value={formData.lastName} onChange={handleInputChange} placeholder="გვარი" required />
                             </div>
                         </div>
+
                         <div className="input-group">
-                            <label>ტელეფონის ნომერი</label>
-                            <div className="input-wrapper">
-                                <i data-lucide="phone" className="input-icon"></i>
+                            <label>ელ-ფოსტა</label>
+                            <div className={`input-wrapper ${errors.email ? 'input-error' : ''}`}>
+                                <Mail className="input-icon" size={20} />
+                                <input name="email" type="email" value={formData.email} onChange={handleInputChange} placeholder="example@mail.com" required />
+                            </div>
+                        </div>
+
+                        <div className="input-group">
+                            <label>ტელეფონი</label>
+                            <div className={`input-wrapper ${errors.phoneNumber ? 'input-error' : ''}`}>
+                                <Phone className="input-icon" size={20} />
                                 <input name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} placeholder="5XXXXXXXX" required />
                             </div>
                         </div>
 
-                        <div className="captcha-container">
-                            <div className="captcha-box">
-                                <div className="captcha-left">
-                                    {!isVerified ? (
-                                        <div className="checkbox" onClick={() => setShowChallenge(true)}></div>
-                                    ) : (
-                                        <div className="verified-check"><i data-lucide="check" style={{ color: '#009d5a' }}></i></div>
-                                    )}
-                                    <span className="captcha-text">მე არ ვარ რობოტი</span>
-                                </div>
-                                <div className="captcha-right">
-                                    <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" />
-                                    <span>reCAPTCHA</span>
-                                    <small>Privacy - Terms</small>
-                                </div>
-                            </div>
-
-                            {showChallenge && (
-                                <div className="image-challenge-popup">
-                                    <div className="challenge-header">
-                                        <p>მონიშნეთ ყველა სურათი: <strong>{challenges[currentLevel].title}</strong></p>
-                                    </div>
-                                    <div className="image-grid">
-                                        {shuffledImages.map((img) => (
-                                            <div key={img.id} className={`grid-item ${selectedImages.includes(img.id) ? 'selected' : ''}`} onClick={() => toggleImage(img.id)}>
-                                                {!loadedImages[img.id] && <div className="img-loader"><div className="spinner"></div></div>}
-                                                <img src={img.url} alt="captcha" onLoad={() => handleImageLoad(img.id)} style={{ display: loadedImages[img.id] ? 'block' : 'none' }} />
-                                                {selectedImages.includes(img.id) && <div className="check-overlay">✓</div>}
-                                            </div>
-                                        ))}
-                                    </div>
-                                    <div className="challenge-footer">
-                                        <button type="button" onClick={verifyCaptcha}>შემოწმება</button>
-                                    </div>
-                                </div>
-                            )}
+                        <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'center' }}>
+                            <ReCAPTCHA
+                                sitekey="6Lfj9cAsAAAAAKrbtPWnHGvp6MPBONJ5zHwJW38v"
+                                onChange={(token) => setCaptchaToken(token)}
+                            />
                         </div>
 
-                        <button type="submit" className="submit-btn" disabled={status.loading || !isVerified}>
+                        <button type="submit" className="submit-btn" disabled={status.loading || !captchaToken}>
                             {status.loading ? 'იგზავნება...' : 'რეგისტრაცია'}
                         </button>
                     </form>
-                    {status.message && <div className={`status-message ${status.success ? 'success' : 'error'}`}>{status.message}</div>}
+                    {status.message && <p className="error-text" style={{color: '#dc3545', textAlign: 'center', marginTop: '10px'}}>{status.message}</p>}
                 </div>
             </div>
+
+            {showSuccessModal && (
+                <div className="success-modal-overlay">
+                    <div className="success-modal">
+                        <PartyPopper size={50} color="#c5a059" />
+                        <h2>გილოცავთ!</h2>
+                        <p>მონაცემები წარმატებით გაიგზავნა.</p>
+                        <div className="modal-actions">
+                            <button className="stay-btn" onClick={() => setShowSuccessModal(false)}>დარჩენა</button>
+                            <button className="exit-btn" onClick={handleExit}>გასვლა</button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {showErrorModal && (
                 <div className="error-modal-overlay">
                     <div className="error-modal">
-                        <i data-lucide="alert-circle" className="modal-icon"></i>
-                        <h2>არასწორია!</h2>
+                        <AlertCircle size={40} color="#dc3545" />
+                        <h2>შეცდომა!</h2>
+                        <p>{status.message}</p>
                         <button onClick={() => setShowErrorModal(false)}>გასაგებია</button>
                     </div>
                 </div>
