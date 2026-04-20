@@ -118,13 +118,13 @@ const Register = () => {
                             <label>ტელეფონი</label>
                             <div className={`input-wrapper ${errors.phoneNumber ? 'input-error' : ''}`}>
                                 <Phone className="input-icon" size={20} />
-                                <input name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} placeholder="5XXXXXXXX" required />
+                                <input name="phoneNumber" type="tel" value={formData.phoneNumber} onChange={handleInputChange} placeholder="5XXXXXXXX" required />
                             </div>
                         </div>
 
                         <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'center' }}>
                             <ReCAPTCHA
-                                sitekey="6LcwBMEsAAAAAIk-ZFUdpM_O1URNgrcGYUKTR9ED"
+                                sitekey="6Ld6C8EsAAAAAC6oI4_ulPhvF4x6sreqMLBWvlj5"
                                 onChange={(token) => setCaptchaToken(token)}
                             />
                         </div>
