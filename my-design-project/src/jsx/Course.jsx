@@ -32,7 +32,6 @@ const Register = () => {
     };
 
     const handleExit = () => {
-        // აბრუნებს მომხმარებელს წინა საიტზე (FB, Messenger, Google და ა.შ.)
         if (document.referrer && document.referrer !== window.location.href) {
             window.location.href = document.referrer;
         } else {
@@ -125,7 +124,7 @@ const Register = () => {
 
                         <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'center' }}>
                             <ReCAPTCHA
-                                sitekey="6Lfj9cAsAAAAAKrbtPWnHGvp6MPBONJ5zHwJW38v"
+                                sitekey="6LcwBMEsAAAAAIk-ZFUdpM_O1URNgrcGYUKTR9ED"
                                 onChange={(token) => setCaptchaToken(token)}
                             />
                         </div>
